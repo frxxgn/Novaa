@@ -184,7 +184,7 @@ export default function AdminApp() {
 
   return (
     <div className="tone-dark min-h-[100dvh]" style={{ background: "var(--nv-bg-dark)" }}>
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-tone lg:block" style={{ background: "color-mix(in oklab, var(--nv-surface-dark) 80%, var(--nv-bg-dark))" }}>
+      <aside className={cn("fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-tone", !isEditor && "lg:block")} style={{ background: "color-mix(in oklab, var(--nv-surface-dark) 80%, var(--nv-bg-dark))" }}>
         {sidebar}
       </aside>
       {mobileOpen && (
@@ -195,7 +195,7 @@ export default function AdminApp() {
           </aside>
         </div>
       )}
-      <div className={cn("lg:pl-64", isEditor && "lg:pl-0")}>
+      <div className={cn(!isEditor && "lg:pl-64")}>
         {!isEditor && (
           <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-tone px-4 backdrop-blur-xl md:px-8" style={{ background: "color-mix(in oklab, var(--nv-bg-dark) 85%, transparent)" }}>
             <button className="rounded-sm p-2 hover:bg-white/10 lg:hidden" onClick={() => setMobileOpen(true)} aria-label="Abrir menú">

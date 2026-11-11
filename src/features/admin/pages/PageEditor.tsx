@@ -59,11 +59,13 @@ interface VersionRow {
   snapshot: { title: string; seo: SeoMeta; sections: SectionData[] };
 }
 
+// Anchura real de cada dispositivo: el iframe se renderiza a ese tamaño y se
+// escala para caber en el panel, así las media queries responden de verdad.
 const DEVICES = {
-  desktop: { width: "100%", icon: Monitor, label: "Escritorio" },
-  laptop: { width: "1280px", icon: Laptop, label: "Portátil" },
-  tablet: { width: "820px", icon: Tablet, label: "Tablet" },
-  mobile: { width: "390px", icon: Smartphone, label: "Móvil" },
+  desktop: { width: 1440, icon: Monitor, label: "Escritorio" },
+  laptop: { width: 1280, icon: Laptop, label: "Portátil" },
+  tablet: { width: 820, icon: Tablet, label: "Tablet" },
+  mobile: { width: 390, icon: Smartphone, label: "Móvil" },
 } as const;
 
 const PAGE_FIELDS: AdminField[] = [
@@ -106,6 +108,17 @@ export default function PageEditor() {
   const [compareOpen, setCompareOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const stage = useRef<HTMLDivElement>(null);
+  const [stageSize, setStageSize] = useState({ w: 900, h: 700 });
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => setStageSize({ w: el.clientWidth - 24, h: el.clientHeight - 24 }));
+    ro.observe(el);
+    return () => ro.disconnect();
+  });
+  const scale = Math.min(1, stageSize.w / DEVICES[device].width);
+  const stageHeight = Math.max(400, stageSize.h - (typeof window !== "undefined" && window.innerWidth < 1024 ? 48 : 0));
 
   const load = useQuery({
     queryKey: ["admin", "page-editor", id],
@@ -364,9 +377,16 @@ export default function PageEditor() {
         </aside>
 
         {/* Previsualización */}
-        <div className="relative min-h-[50vh] overflow-auto bg-[#0a0b1e] p-3" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0)", backgroundSize: "22px 22px" }}>
-          <div className="mx-auto h-full overflow-hidden rounded-md border border-white/10 bg-[var(--nv-bg-dark)] shadow-2xl transition-[max-width] duration-500" style={{ maxWidth: DEVICES[device].width }}>
-            <iframe ref={iframe} title="Previsualización del borrador" src={`/__preview/page/${id}`} className="h-full min-h-[70vh] w-full border-0" onLoad={pushPreview} />
+        <div ref={stage} className="relative min-h-[50vh] overflow-hidden bg-[#0a0b1e] p-3" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0)", backgroundSize: "22px 22px" }}>
+          <div className="mx-auto overflow-hidden rounded-md border border-white/10 bg-[var(--nv-bg-dark)] shadow-2xl" style={{ width: DEVICES[device].width * scale, height: stageHeight }}>
+            <iframe
+              ref={iframe}
+              title="Previsualización del borrador"
+              src={`/__preview/page/${id}`}
+              className="origin-top-left border-0"
+              style={{ width: DEVICES[device].width, height: stageHeight / scale, transform: `scale(${scale})` }}
+              onLoad={pushPreview}
+            />
           </div>
           <div className="mt-2 flex justify-center gap-2 lg:hidden">
             <Button size="sm" variant="outline" onClick={() => setAddOpen(true)} icon={<Plus className="size-4" />}>
