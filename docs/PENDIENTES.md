@@ -5,7 +5,7 @@
 | Integración | Estado en el código | Qué falta | Verificado |
 | --- | --- | --- | --- |
 | **Supabase en la nube** | Migraciones, seeds y plantillas listas | Crear el proyecto, `db push`, configurar Auth y SMTP ([DESPLIEGUE.md](DESPLIEGUE.md) §1) | En local con Supabase CLI |
-| **Vercel** | `vercel.json` y `api/index.ts` listos | Importar el repositorio con *Root Directory* `novalius` y variables de entorno | No (sin cuenta); probado el mismo código con `server/node.ts` |
+| **Vercel** | `vercel.json` y `api/index.ts` listos | Importar el repositorio y configurar las variables de entorno | No (sin cuenta); probado el mismo código con `server/node.ts` |
 | **Claude (Nova con IA)** | Implementado (streaming, herramientas, caché, *fallbacks*) | `ANTHROPIC_API_KEY` | Contra un servidor que imita la API; **falta una prueba con clave real** |
 | **Correo de avisos** | SMTP y Resend | Elegir proveedor y credenciales | Con SMTP local (Mailpit): envío y contenido reales |
 | **Correo de autenticación** | Plantillas propias en español | SMTP propio en Supabase | En local (registro, verificación, recuperación, invitación) |

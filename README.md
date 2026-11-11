@@ -4,8 +4,8 @@ Web corporativa, asistente comercial **Nova**, motor de presupuestos, CRM, porta
 **Novalius Challenge** y panel de administración completo, sobre una base de datos real con
 seguridad a nivel de fila (Supabase) y una API propia (Hono).
 
-> Este directorio es independiente de la web de Moya que hay en la raíz del repositorio.
-> En Vercel se despliega como un proyecto propio con **Root Directory = `novalius`**.
+> Repositorio propio de NOVALIUS. Se despliega en Vercel desde la raíz del repositorio
+> (sin *Root Directory*) y usa Supabase como base de datos y autenticación.
 
 ## Estado
 
@@ -78,6 +78,7 @@ novalius/
 Requisitos: Node 20.19+ (probado con 22), Docker (para Supabase local).
 
 ```bash
+git clone https://github.com/frxxgn/novalius.git
 cd novalius
 npm install
 npm run db:start                 # Supabase local (Postgres, Auth, Storage, Mailpit)

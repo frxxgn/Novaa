@@ -11,7 +11,7 @@ Orden recomendado: **1) Supabase → 2) Vercel → 3) dominio → 4) primer admi
 ## 1. Supabase (base de datos, autenticación y archivos)
 
 1. Crea un proyecto en [supabase.com](https://supabase.com) (región UE recomendada para el RGPD, p. ej. Frankfurt o París).
-2. En tu equipo, desde `novalius/`:
+2. En tu equipo, desde la carpeta del repositorio:
 
    ```bash
    npx supabase login
@@ -49,12 +49,12 @@ Orden recomendado: **1) Supabase → 2) Vercel → 3) dominio → 4) primer admi
 
 ## 2. GitHub y Vercel
 
-El código está en el repositorio de GitHub, dentro de la carpeta `novalius/`.
+El código está en el repositorio de GitHub `frxxgn/novalius`.
 
 1. En [vercel.com](https://vercel.com) → *Add New… → Project* → importa el repositorio desde GitHub
    (autoriza la app de Vercel en GitHub si te lo pide).
-2. **Root Directory: `novalius`** (imprescindible: la raíz del repositorio contiene otra web).
-   El resto (instalación, build, `dist/`, reescrituras, cabeceras y cron) lo define `novalius/vercel.json`.
+2. Deja *Root Directory* en la raíz del repositorio. La instalación, el build, `dist/`, las reescrituras,
+   las cabeceras y el cron los define `vercel.json`.
 3. **Environment Variables** (Production y, si quieres, Preview):
 
    | Variable | Valor |
