@@ -8,7 +8,7 @@
 | **Vercel** | `vercel.json` y `api/index.ts` listos | Importar el repositorio y configurar las variables de entorno | No (sin cuenta); probado el mismo código con `server/node.ts` |
 | **Claude (Nova con IA)** | Implementado (streaming, herramientas, caché, *fallbacks*) | `ANTHROPIC_API_KEY` | Contra un servidor que imita la API; **falta una prueba con clave real** |
 | **Correo de avisos** | SMTP y Resend | Elegir proveedor y credenciales | Con SMTP local (Mailpit): envío y contenido reales |
-| **Correo de autenticación** | Plantillas propias en español | SMTP propio en Supabase | En local (registro, verificación, recuperación, invitación) |
+| **Correo de autenticación** | Plantillas propias en español; la web acepta también los enlaces de las plantillas estándar | SMTP propio en Supabase (sin él, Supabase solo envía a miembros de tu organización, en inglés y con un límite muy bajo) | En local, con ambos formatos de enlace |
 | **WhatsApp Business** | Cloud API de Meta con plantillas | Cuenta de Meta, número verificado, plantilla aprobada y token | No (sin credenciales). Si falta, el canal figura como «no configurado» y no se simula |
 | **Dominio** | Canonical, sitemap y robots dinámicos | Apuntar DNS y actualizar `SITE_URL` | — |
 

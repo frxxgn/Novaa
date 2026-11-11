@@ -41,6 +41,8 @@ Orden recomendado: **1) Supabase → 2) Vercel → 3) dominio → 4) primer admi
    | Reset Password | `recovery.html` | Restablece tu contraseña de Novalius |
 
    Las plantillas enlazan a `{{ .SiteURL }}/auth/confirmar?token_hash=…`, por eso la *Site URL* debe ser la correcta.
+   En el plan gratuito Supabase solo permite editar plantillas con un SMTP propio (paso 6). Mientras tanto la web
+   también acepta los enlaces de las plantillas estándar de Supabase (sesión en `#access_token=…`).
 6. **Authentication → SMTP Settings**: configura un SMTP propio. El servidor de correo integrado de Supabase solo
    envía a miembros del equipo del proyecto y con un límite muy bajo, así que **sin SMTP propio los usuarios no
    recibirán los correos de verificación**. Puedes usar el mismo proveedor que para los avisos (ver §5).

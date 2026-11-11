@@ -241,18 +241,35 @@ export function ConfirmPage() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
+  // Con las plantillas estándar de Supabase (sin SMTP propio) el enlace pasa por
+  // Supabase y vuelve aquí con la sesión en el fragmento: #access_token=…&type=…
+  const [fragment] = useState(() => new URLSearchParams(window.location.hash.replace(/^#/, "")));
   useSeo({ title: "Verificando", noindex: true });
 
   useEffect(() => {
     const tokenHash = params.get("token_hash");
-    const type = (params.get("type") ?? "email") as EmailOtpType;
+    const type = (params.get("type") ?? fragment.get("type") ?? "email") as EmailOtpType;
     const next = safeNext(params.get("next") ?? safeStorage.get("nv-after-verify"));
     safeStorage.remove("nv-after-verify");
-    if (!tokenHash) {
+    const linkError = params.get("error_description") ?? fragment.get("error_description");
+    if (linkError) {
+      setError(authError(linkError));
+      return;
+    }
+    const accessToken = fragment.get("access_token");
+    const refreshToken = fragment.get("refresh_token");
+    let verify: Promise<{ error: { message: string } | null }>;
+    if (tokenHash) {
+      verify = supabase.auth.verifyOtp({ token_hash: tokenHash, type });
+    } else if (accessToken && refreshToken) {
+      // Se retira el token de la barra de direcciones antes de continuar
+      window.history.replaceState(null, "", window.location.pathname);
+      verify = supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+    } else {
       setError("El enlace no es válido.");
       return;
     }
-    void supabase.auth.verifyOtp({ token_hash: tokenHash, type }).then(({ error: err }) => {
+    void verify.then(({ error: err }) => {
       if (err) {
         setError(authError(err.message));
         return;
@@ -261,7 +278,7 @@ export function ConfirmPage() {
       if (type === "recovery" || type === "invite") navigate("/restablecer", { replace: true });
       else setTimeout(() => navigate(next === "/cuenta" ? "/cuenta?verificado=1" : next, { replace: true }), 1200);
     });
-  }, [params, navigate]);
+  }, [params, navigate, fragment]);
 
   return (
     <AuthShell title={error ? "No se pudo verificar" : ok ? "¡Listo!" : "Verificando…"}>
