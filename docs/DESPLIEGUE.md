@@ -51,7 +51,7 @@ Orden recomendado: **1) Supabase → 2) Vercel → 3) dominio → 4) primer admi
 
 ## 2. GitHub y Vercel
 
-El código está en el repositorio de GitHub `frxxgn/novalius`.
+El código está en el repositorio de GitHub `frxxgn/Nova`.
 
 1. En [vercel.com](https://vercel.com) → *Add New… → Project* → importa el repositorio desde GitHub
    (autoriza la app de Vercel en GitHub si te lo pide).

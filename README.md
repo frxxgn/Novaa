@@ -78,8 +78,8 @@ novalius/
 Requisitos: Node 20.19+ (probado con 22), Docker (para Supabase local).
 
 ```bash
-git clone https://github.com/frxxgn/novalius.git
-cd novalius
+git clone https://github.com/frxxgn/Nova.git
+cd Nova
 npm install
 npm run db:start                 # Supabase local (Postgres, Auth, Storage, Mailpit)
 npm run db:reset                 # Aplica migraciones y datos iniciales
