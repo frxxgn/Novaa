@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100" role="img" aria-label="Novalius">
+  <defs><linearGradient id="lius" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6c26e8"/><stop offset="1" stop-color="#a540fb"/></linearGradient></defs>
+  <g>
+  <defs>
+    <linearGradient id="mring" x1="10" y1="90" x2="90" y2="10" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#07195e"/><stop offset=".55" stop-color="#301e9f"/><stop offset="1" stop-color="#a540fb"/></linearGradient>
+    <linearGradient id="mstem" x1="30" y1="76" x2="40" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#07195e"/><stop offset="1" stop-color="#301e9f"/></linearGradient>
+    <linearGradient id="mdiag" x1="34" y1="28" x2="64" y2="74" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6c26e8"/><stop offset="1" stop-color="#301e9f"/></linearGradient>
+    <linearGradient id="mrise" x1="58" y1="74" x2="76" y2="26" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#6c26e8"/><stop offset="1" stop-color="#a540fb"/></linearGradient>
+    <linearGradient id="marrow" x1="64" y1="40" x2="82" y2="18" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8f9097"/><stop offset="1" stop-color="#d4d5da"/></linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="url(#mring)" stroke-width="5.5"/>
+  <path d="M27 74 L27 33 L36 26 L36 67 Z" fill="url(#mstem)"/>
+  <path d="M36 26 L45 26 L65 70 L56 74 Z" fill="url(#mdiag)"/>
+  <path d="M56 74 L65 70 L62 62 Z" fill="#000" opacity=".22"/>
+  <path d="M56 74 L65 70 L74.5 38 L66 38 Z" fill="url(#mrise)"/>
+  <path d="M61 41 L79 19 L82 43 L74.5 38 Z" fill="url(#marrow)"/>
+</g>
+  <text x="114" y="68" font-family="Sora, 'Sora Variable', 'Segoe UI', Arial, sans-serif" font-size="54" font-weight="700" letter-spacing="-2.2" fill="#010f40">nova<tspan fill="url(#lius)">lius</tspan></text>
+</svg>
