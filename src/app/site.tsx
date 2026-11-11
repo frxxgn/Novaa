@@ -64,3 +64,10 @@ export function useSite(): SiteCtx {
   if (!ctx) throw new Error("useSite debe usarse dentro de SiteProvider");
   return ctx;
 }
+
+/** Reemplaza tokens/animaciones dentro de un subárbol (previsualizaciones del panel). */
+export function SiteOverride({ tokens, animations, children }: { tokens?: DesignTokens; animations?: AnimationSettings; children: ReactNode }) {
+  const parent = useSite();
+  const value = useMemo(() => ({ ...parent, tokens: tokens ?? parent.tokens, animations: animations ?? parent.animations }), [parent, tokens, animations]);
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
+}

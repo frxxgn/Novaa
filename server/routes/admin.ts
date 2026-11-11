@@ -6,7 +6,9 @@ import { env, integrations } from "../env.js";
 import { ApiError, badRequest, forbidden, notFound, readJson } from "../lib/http.js";
 import { admin, clearSettingsCache, requirePermission, type AuthInfo } from "../lib/supabase.js";
 import { notifyTeam } from "../notify/index.js";
-import { invalidatePricingCache } from "../quotes/service.js";
+import { calculate, invalidatePricingCache } from "../quotes/service.js";
+import { quoteRequirementsSchema } from "../../src/shared/pricing.js";
+import { PricingConfigError } from "../pricing/engine.js";
 
 export const adminRoutes = new Hono();
 
@@ -31,6 +33,19 @@ adminRoutes.post("/cache/clear", async (c) => {
   clearSettingsCache();
   invalidatePricingCache();
   return c.json({ ok: true });
+});
+
+// Simulador de tarifas: calcula sin guardar ningún presupuesto
+adminRoutes.post("/pricing/simulate", async (c) => {
+  await requirePermission(c, "pricing.manage");
+  invalidatePricingCache();
+  const body = await readJson(c, quoteRequirementsSchema);
+  try {
+    return c.json({ quote: await calculate(body) });
+  } catch (e) {
+    if (e instanceof PricingConfigError) throw new ApiError(422, "pricing_not_configured", e.message);
+    throw e;
+  }
 });
 
 adminRoutes.post("/notifications/test", async (c) => {
