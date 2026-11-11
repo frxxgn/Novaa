@@ -65,7 +65,7 @@ adminRoutes.post("/users/invite", async (c) => {
   let invited = false;
   if (!userId) {
     const { data, error } = await db.auth.admin.inviteUserByEmail(body.email.toLowerCase(), {
-      redirectTo: `${env.siteUrl}/auth/confirmar?next=/restablecer`,
+      redirectTo: `${env.siteUrl}/auth/confirmar`,
       data: { full_name: body.full_name },
     });
     if (error || !data.user) throw new ApiError(400, "invite_failed", error?.message ?? "No se pudo enviar la invitación.");
@@ -130,7 +130,7 @@ adminRoutes.post("/customers/:id/invite", async (c) => {
     userId = profile?.id ?? null;
     if (!userId) {
       const { data, error } = await db.auth.admin.inviteUserByEmail(customer.email, {
-        redirectTo: `${env.siteUrl}/auth/confirmar?next=/restablecer`,
+        redirectTo: `${env.siteUrl}/auth/confirmar`,
         data: { full_name: customer.contact_name },
       });
       if (error || !data.user) throw new ApiError(400, "invite_failed", error?.message ?? "No se pudo enviar la invitación.");

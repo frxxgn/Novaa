@@ -1,0 +1,389 @@
+@import "tailwindcss";
+@import "@fontsource-variable/sora";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/manrope";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/oswald";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+/*
+ * Sistema de diseño de Novalius.
+ * Todos los valores proceden de variables --nv-* que se sobrescriben en tiempo
+ * de ejecución con el diseño publicado desde el panel (design_settings).
+ */
+:root {
+  --nv-primary: #6c26e8;
+  --nv-secondary: #a540fb;
+  --nv-lavender: #c9b8f5;
+  --nv-ink: #010f40;
+  --nv-navy: #07195e;
+  --nv-indigo: #301e9f;
+  --nv-silver: #b9babe;
+  --nv-bg-dark: #05061a;
+  --nv-surface-dark: #0d0f2b;
+  --nv-bg-light: #f6f4fd;
+  --nv-surface-light: #ffffff;
+  --nv-text-on-dark: #f3f1ff;
+  --nv-text-on-light: #0b0c26;
+  --nv-success: #15a36a;
+  --nv-warning: #d98a06;
+  --nv-danger: #e0364f;
+  --nv-info: #2f6fe4;
+
+  --nv-font-display: "Sora Variable", "Sora", ui-sans-serif, system-ui, sans-serif;
+  --nv-font-body: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --nv-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --nv-type-scale: 1;
+  --nv-display-weight: 600;
+  --nv-display-tracking: -0.045em;
+
+  --nv-radius-sm: 10px;
+  --nv-radius-md: 18px;
+  --nv-radius-lg: 30px;
+  --nv-btn-radius: 999px;
+
+  --nv-section-space: 136px;
+  --nv-container: 1320px;
+  --nv-gutter: 24px;
+
+  --nv-glow: 0.55;
+  --nv-shadow: 0.22;
+  --nv-glass-opacity: 0.07;
+  --nv-glass-blur: 18px;
+  --nv-border-opacity: 0.12;
+  --nv-noise: 0.04;
+
+  --nv-motion-speed: 1;
+  --nv-motion-intensity: 1;
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-primary: var(--nv-primary);
+  --color-secondary: var(--nv-secondary);
+  --color-lavender: var(--nv-lavender);
+  --color-ink: var(--nv-ink);
+  --color-navy: var(--nv-navy);
+  --color-indigo: var(--nv-indigo);
+  --color-silver: var(--nv-silver);
+  --color-night: var(--nv-bg-dark);
+  --color-night-2: var(--nv-surface-dark);
+  --color-paper: var(--nv-bg-light);
+  --color-paper-2: var(--nv-surface-light);
+  --color-on-dark: var(--nv-text-on-dark);
+  --color-on-light: var(--nv-text-on-light);
+  --color-success: var(--nv-success);
+  --color-warning: var(--nv-warning);
+  --color-danger: var(--nv-danger);
+  --color-info: var(--nv-info);
+
+  --font-display: var(--nv-font-display);
+  --font-sans: var(--nv-font-body);
+  --font-mono: var(--nv-font-mono);
+
+  --radius-sm: var(--nv-radius-sm);
+  --radius-md: var(--nv-radius-md);
+  --radius-lg: var(--nv-radius-lg);
+  --radius-btn: var(--nv-btn-radius);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: auto;
+  }
+  body {
+    background: var(--nv-bg-dark);
+    color: var(--nv-text-on-dark);
+    font-family: var(--nv-font-body);
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--nv-primary) 70%, transparent);
+    color: white;
+  }
+  :focus-visible {
+    outline: 2px solid var(--nv-secondary);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  img,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@layer components {
+  .container-nv {
+    width: 100%;
+    max-width: var(--nv-container);
+    margin-inline: auto;
+    padding-inline: max(16px, var(--nv-gutter));
+  }
+  .section-nv {
+    padding-block: calc(var(--nv-section-space) * 0.55);
+  }
+  @media (min-width: 768px) {
+    .section-nv {
+      padding-block: calc(var(--nv-section-space) * 0.8);
+    }
+  }
+  @media (min-width: 1200px) {
+    .section-nv {
+      padding-block: var(--nv-section-space);
+    }
+  }
+
+  .font-display {
+    font-family: var(--nv-font-display);
+    font-weight: var(--nv-display-weight);
+    letter-spacing: var(--nv-display-tracking);
+  }
+  .display-xl {
+    font-family: var(--nv-font-display);
+    font-weight: var(--nv-display-weight);
+    letter-spacing: var(--nv-display-tracking);
+    line-height: 0.92;
+    font-size: calc(clamp(2.5rem, 6.6vw, 7.6rem) * var(--nv-type-scale));
+  }
+  .display-lg {
+    font-family: var(--nv-font-display);
+    font-weight: var(--nv-display-weight);
+    letter-spacing: var(--nv-display-tracking);
+    line-height: 0.98;
+    font-size: calc(clamp(2.1rem, 5.6vw, 5.4rem) * var(--nv-type-scale));
+  }
+  .display-md {
+    font-family: var(--nv-font-display);
+    font-weight: var(--nv-display-weight);
+    letter-spacing: calc(var(--nv-display-tracking) * 0.7);
+    line-height: 1.04;
+    font-size: calc(clamp(1.7rem, 3.6vw, 3.4rem) * var(--nv-type-scale));
+  }
+  .eyebrow {
+    font-family: var(--nv-font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* Tonos de sección: oscuro, claro y violeta */
+  .tone-dark {
+    background: var(--nv-bg-dark);
+    color: var(--nv-text-on-dark);
+    --tone-fg: var(--nv-text-on-dark);
+    --tone-muted: color-mix(in oklab, var(--nv-text-on-dark) 62%, transparent);
+    --tone-line: color-mix(in oklab, var(--nv-text-on-dark) calc(var(--nv-border-opacity) * 100%), transparent);
+    --tone-card: color-mix(in oklab, white calc(var(--nv-glass-opacity) * 100%), transparent);
+    color-scheme: dark;
+  }
+  .tone-light {
+    background: var(--nv-bg-light);
+    color: var(--nv-text-on-light);
+    --tone-fg: var(--nv-text-on-light);
+    --tone-muted: color-mix(in oklab, var(--nv-text-on-light) 64%, transparent);
+    --tone-line: color-mix(in oklab, var(--nv-text-on-light) 11%, transparent);
+    --tone-card: var(--nv-surface-light);
+    color-scheme: light;
+  }
+  .tone-violet {
+    background:
+      radial-gradient(120% 90% at 85% 0%, color-mix(in oklab, var(--nv-secondary) 75%, transparent), transparent 60%),
+      radial-gradient(90% 80% at 0% 100%, color-mix(in oklab, var(--nv-navy) 90%, transparent), transparent 70%),
+      var(--nv-indigo);
+    color: white;
+    --tone-fg: white;
+    --tone-muted: color-mix(in oklab, white 74%, transparent);
+    --tone-line: color-mix(in oklab, white 20%, transparent);
+    --tone-card: color-mix(in oklab, white 10%, transparent);
+    color-scheme: dark;
+  }
+  .text-muted {
+    color: var(--tone-muted, color-mix(in oklab, currentColor 62%, transparent));
+  }
+  .border-tone {
+    border-color: var(--tone-line, color-mix(in oklab, currentColor 12%, transparent));
+  }
+
+  .glass {
+    background: var(--tone-card, color-mix(in oklab, white calc(var(--nv-glass-opacity) * 100%), transparent));
+    border: 1px solid var(--tone-line, color-mix(in oklab, white 12%, transparent));
+    backdrop-filter: blur(var(--nv-glass-blur)) saturate(1.2);
+    -webkit-backdrop-filter: blur(var(--nv-glass-blur)) saturate(1.2);
+  }
+  .tone-light .glass {
+    box-shadow: 0 1px 0 color-mix(in oklab, white 80%, transparent) inset, 0 20px 50px -30px color-mix(in oklab, var(--nv-ink) calc(var(--nv-shadow) * 140%), transparent);
+  }
+
+  .text-gradient {
+    background: linear-gradient(100deg, var(--nv-lavender) 0%, var(--nv-secondary) 45%, var(--nv-primary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .tone-light .text-gradient {
+    background: linear-gradient(100deg, var(--nv-indigo) 0%, var(--nv-primary) 55%, var(--nv-secondary) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .glow-ring {
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--nv-secondary) 35%, transparent),
+      0 20px 80px -20px color-mix(in oklab, var(--nv-primary) calc(var(--nv-glow) * 100%), transparent);
+  }
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--nv-noise);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
+    mix-blend-mode: overlay;
+  }
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, var(--tone-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--tone-line) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Contenido de texto enriquecido (páginas legales y descripciones) */
+  .prose-nv h2 {
+    font-family: var(--nv-font-display);
+    font-weight: 600;
+    font-size: 1.45rem;
+    letter-spacing: -0.02em;
+    margin: 2.2rem 0 0.8rem;
+  }
+  .prose-nv h3 {
+    font-weight: 600;
+    font-size: 1.12rem;
+    margin: 1.6rem 0 0.6rem;
+  }
+  .prose-nv p,
+  .prose-nv li {
+    line-height: 1.75;
+    color: var(--tone-muted);
+  }
+  .prose-nv p {
+    margin: 0 0 1rem;
+  }
+  .prose-nv ul {
+    list-style: disc;
+    padding-left: 1.3rem;
+    margin: 0 0 1rem;
+  }
+  .prose-nv strong {
+    color: var(--tone-fg);
+    font-weight: 600;
+  }
+  .prose-nv a {
+    color: var(--nv-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+/* Cursor personalizado: solo en punteros finos */
+@media (pointer: fine) {
+  html.nv-cursor,
+  html.nv-cursor a,
+  html.nv-cursor button {
+    cursor: none;
+  }
+  html.nv-cursor input,
+  html.nv-cursor textarea,
+  html.nv-cursor select,
+  html.nv-cursor [contenteditable] {
+    cursor: text;
+  }
+}
+
+@keyframes nv-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes nv-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) scale(1.02);
+  }
+}
+@keyframes nv-spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes nv-pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+@keyframes nv-shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+.animate-marquee {
+  animation: nv-marquee calc(38s / var(--nv-motion-speed)) linear infinite;
+}
+.animate-float {
+  animation: nv-float calc(7s / var(--nv-motion-speed)) ease-in-out infinite;
+}
+.animate-spin-slow {
+  animation: nv-spin-slow calc(40s / var(--nv-motion-speed)) linear infinite;
+}
+.skeleton {
+  background: linear-gradient(90deg, color-mix(in oklab, currentColor 6%, transparent) 25%, color-mix(in oklab, currentColor 12%, transparent) 50%, color-mix(in oklab, currentColor 6%, transparent) 75%);
+  background-size: 200% 100%;
+  animation: nv-shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html.nv-reduce-motion *,
+html.nv-reduce-motion *::before,
+html.nv-reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
