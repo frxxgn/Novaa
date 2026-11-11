@@ -58,7 +58,7 @@ export function ContactCard({ prefill, onSubmit, sent }: { prefill: ContactPrefi
         </label>
       )}
       <label className="flex items-start gap-2 text-xs text-white/70">
-        <input type="checkbox" className="mt-0.5 accent-[var(--nv-primary)]" checked={consent} onChange={(e) => setConsent(e.target.checked)} required />
+        <input type="checkbox" className="mt-0.5 accent-[var(--nv-primary)]" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-required="true" />
         <span>
           He leído y acepto la{" "}
           <Link to="/privacidad" className="underline" target="_blank">

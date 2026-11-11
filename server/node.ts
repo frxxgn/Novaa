@@ -41,6 +41,7 @@ server.use("*", async (c, next) => {
 });
 
 server.get("/sitemap.xml", (c) => api.fetch(new Request(new URL("/api/sitemap", c.req.url)), c.env));
+server.get("/robots.txt", (c) => api.fetch(new Request(new URL("/api/robots", c.req.url)), c.env));
 server.all("/api/*", (c) => api.fetch(c.req.raw, c.env));
 
 if (supabaseInternal) {

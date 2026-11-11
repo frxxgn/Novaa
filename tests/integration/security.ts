@@ -4,13 +4,13 @@
 //   npx tsx --env-file=.env.local tests/integration/security.ts
 //
 // Requiere: SUPABASE_URL, SUPABASE_SECRET_KEY, SUPABASE_PUBLISHABLE_KEY y
-// API_URL (por defecto http://localhost:8787).
+// API_URL opcional (si no se indica, la API se levanta en este mismo proceso).
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = process.env.SUPABASE_URL!;
 const SECRET = process.env.SUPABASE_SECRET_KEY!;
 const PUBLISHABLE = process.env.SUPABASE_PUBLISHABLE_KEY!;
-const API = process.env.API_URL || "http://localhost:8787";
+let API = process.env.API_URL || "";
 if (!SUPABASE_URL || !SECRET || !PUBLISHABLE) throw new Error("Faltan variables de Supabase");
 if (/supabase\.co/.test(SUPABASE_URL) && !process.env.ALLOW_REMOTE_TESTS) throw new Error("Por seguridad, no se ejecuta contra un proyecto remoto sin ALLOW_REMOTE_TESTS=1");
 
@@ -66,7 +66,18 @@ async function rows(client: SupabaseClient, table: string) {
 }
 
 async function main() {
+  // Si no se indica API_URL, la API se levanta en este mismo proceso
+  if (!API) {
+    const { app } = await import("../../server/app.js");
+    const { serve } = await import("@hono/node-server");
+    const server = serve({ fetch: app.fetch, port: 0 });
+    await new Promise((r) => setTimeout(r, 300));
+    API = `http://127.0.0.1:${(server.address() as import("node:net").AddressInfo).port}`;
+  }
   console.log(`\nNovalius · pruebas de seguridad e integración (${run})\n`);
+  // Los límites de uso por IP se acumulan entre ejecuciones locales: se reinician
+  // los de lead/presupuesto para que la prueba sea repetible (el límite se prueba aparte).
+  await service.from("rate_limits").delete().or("key.like.lead:%,key.like.quote:%");
   const anon = createClient(SUPABASE_URL, PUBLISHABLE, { auth: { persistSession: false } });
   const adminU = await makeUser("admin", { role: "admin" });
   const team = await makeUser("team", { role: "team" });
@@ -141,7 +152,7 @@ async function main() {
   const noConsent = await api("/leads", null, { name: "Sin", email: "sin@example.com", message: "hola", consent: false });
   check("lead sin consentimiento rechazado", noConsent.status === 422);
   const lead = await api("/leads", null, { name: "Formulario", email: `form-${run}@example.com`, message: "Quiero una web", consent: true, started_at: Date.now() - 10_000 });
-  check("lead del formulario creado", lead.status === 200 && Boolean(lead.json.lead_id));
+  check("lead del formulario creado", lead.status === 200 && Boolean(lead.json.lead_id), `${lead.status} ${JSON.stringify(lead.json)}`);
   const { data: teamLeads } = await team.client.from("leads").select("id");
   const { data: userLeads } = await userA.client.from("leads").select("id");
   check("RLS: el equipo ve leads y un usuario no", (teamLeads ?? []).length > 0 && (userLeads ?? []).length === 0);

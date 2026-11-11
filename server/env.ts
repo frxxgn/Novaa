@@ -15,6 +15,7 @@ function bool(name: string, fallback = false): boolean {
 export const env = {
   nodeEnv: read("NODE_ENV") || "development",
   siteUrl: read("SITE_URL") || read("VITE_SITE_URL") || "http://localhost:5173",
+  siteUrlConfigured: Boolean(read("SITE_URL") || read("VITE_SITE_URL")),
 
   // Supabase
   supabaseUrl: read("SUPABASE_URL") || read("VITE_SUPABASE_URL"),

@@ -58,7 +58,7 @@ const SECTIONS: Record<string, { label: string; key: string; description?: strin
     label: "SEO",
     key: "seo_defaults",
     fields: [
-      { name: "site_url", label: "URL pública (dominio)", type: "text", help: "Se usa en canonical, sitemap y Open Graph. Ej.: https://www.novalius.es" },
+      { name: "site_url", label: "URL pública (dominio)", type: "text", help: "Se usa en canonical, sitemap y Open Graph. Vacío = dominio desde el que se sirve la web (SITE_URL en el servidor)." },
       { name: "title_template", label: "Plantilla de título", type: "text", help: "%s se sustituye por el título de cada página." },
       { name: "default_title", label: "Título por defecto", type: "text" },
       { name: "description", label: "Descripción por defecto", type: "textarea" },
@@ -106,6 +106,7 @@ const SECTIONS: Record<string, { label: string; key: string; description?: strin
     fields: [
       { name: "maintenance", label: "Modo mantenimiento", type: "switch" },
       { name: "message", label: "Mensaje", type: "textarea" },
+      { name: "indexable", label: "Permitir indexación en buscadores", type: "switch", help: "Desactívalo en entornos de prueba: robots.txt bloqueará todo el sitio." },
     ],
   },
 };
@@ -213,7 +214,7 @@ function Backups() {
     <Card title="Copias de seguridad">
       <div className="space-y-3 text-sm text-muted">
         <p>La base de datos y los archivos se alojan en Supabase. Las copias diarias automáticas dependen del plan contratado (el plan Pro incluye copias diarias y la opción de recuperación a un momento concreto, PITR).</p>
-        <p>Recomendación: activa PITR en producción y exporta periódicamente un volcado con <code>supabase db dump</code> a un almacenamiento externo. El procedimiento completo está en README.md · «Copias de seguridad».</p>
+        <p>Recomendación: activa PITR en producción y exporta periódicamente un volcado con <code>supabase db dump</code> a un almacenamiento externo. El procedimiento completo está en docs/DESPLIEGUE.md · «Copias de seguridad».</p>
         <p>Las versiones de páginas y de diseño se conservan en la propia base de datos y pueden restaurarse desde sus editores.</p>
       </div>
     </Card>

@@ -134,7 +134,7 @@ export function NovaWidget() {
             exit={{ opacity: 0, y: 30, scale: 0.96 }}
             transition={{ type: "spring", damping: 26, stiffness: 280 }}
             className="tone-dark fixed inset-0 z-[160] flex flex-col overflow-hidden border-white/12 shadow-[0_40px_120px_-30px_rgba(0,0,0,.8)] sm:inset-auto sm:bottom-6 sm:right-6 sm:h-[min(720px,calc(100dvh-48px))] sm:w-[420px] sm:rounded-lg sm:border"
-            style={{ background: "linear-gradient(180deg, color-mix(in oklab, var(--nv-surface-dark) 96%, transparent), color-mix(in oklab, var(--nv-bg-dark) 98%, transparent))" }}
+            style={{ background: "linear-gradient(180deg, var(--nv-surface-dark), var(--nv-bg-dark))" }}
           >
             <div className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-70" style={{ background: "radial-gradient(70% 100% at 20% 0%, color-mix(in oklab, var(--nv-primary) 45%, transparent), transparent)" }} />
             <header className="relative flex items-center gap-3 border-b border-white/10 px-4 pb-3 pt-[max(12px,env(safe-area-inset-top))]">

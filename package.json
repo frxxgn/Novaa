@@ -9,19 +9,21 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:api": "tsx --env-file=.env.local scripts/dev-api.ts",
     "build": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit && vite build",
-    "preview": "tsx server/node.ts",
+    "preview": "tsx --env-file-if-exists=.env.local server/node.ts",
     "start": "NODE_ENV=production tsx server/node.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.server.json --noEmit",
     "test": "vitest run",
-    "test:rls": "node scripts/test-rls.mjs",
-    "test:e2e": "node scripts/e2e.mjs",
+    "test:security": "tsx --env-file=.env.local tests/integration/security.ts",
+    "test:nova": "tsx --env-file=.env.local tests/integration/nova-ai.ts",
+    "test:e2e": "node tests/e2e/run.cjs",
+    "test:all": "npm run typecheck && npm test && npm run test:security && npm run test:nova",
     "db:start": "supabase start -x imgproxy,supavisor,vector,logflare,postgres-meta",
     "db:reset": "supabase db reset",
     "db:stop": "supabase stop",
-    "db:types": "supabase gen types typescript --local > src/types/database.ts",
-    "admin:create": "tsx scripts/create-admin.ts",
-    "brand": "node scripts/generate-brand.mjs"
+    "admin:create": "tsx --env-file=.env.local scripts/create-admin.ts",
+    "brand:assets": "node scripts/generate-brand-assets.cjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "~1.3.0",

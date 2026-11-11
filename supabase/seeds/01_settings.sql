@@ -30,7 +30,7 @@ insert into public.site_settings (key, is_public, description, value) values
   "nova_avatar": "/brand/nova-avatar.svg"
 }'),
 ('seo_defaults', true, 'SEO global', '{
-  "site_url": "http://localhost:5173",
+  "site_url": "",
   "title_template": "%s · Novalius",
   "default_title": "Novalius · Experiencias digitales que impulsan negocios",
   "description": "Desarrollo web, SEO, automatizaciones e inteligencia artificial para empresas. Habla con Nova y obtén un presupuesto orientativo en minutos.",
@@ -49,7 +49,7 @@ insert into public.site_settings (key, is_public, description, value) values
   "analytics_retention_days": 395,
   "lead_retention_note": "Los datos de contacto se conservan mientras exista una relación comercial o hasta que solicites su supresión."
 }'),
-('site_status', true, 'Estado de la web', '{"maintenance": false, "message": "Estamos actualizando Novalius. Volvemos en unos minutos."}'),
+('site_status', true, 'Estado de la web', '{"maintenance": false, "indexable": true, "message": "Estamos actualizando Novalius. Volvemos en unos minutos."}'),
 ('analytics', true, 'Analíticas propias', '{"enabled": true}'),
 ('challenge', true, 'Reglas de Novalius Challenge', '{
   "enabled": true,

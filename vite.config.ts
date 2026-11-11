@@ -15,8 +15,9 @@ function apiDevServer(): Plugin {
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const url = req.url ?? "";
-        if (!url.startsWith("/api/") && url !== "/sitemap.xml") return next();
+        if (!url.startsWith("/api/") && url !== "/sitemap.xml" && url !== "/robots.txt") return next();
         if (url === "/sitemap.xml") req.url = "/api/sitemap";
+        if (url === "/robots.txt") req.url = "/api/robots";
         try {
           const { getRequestListener } = await import("@hono/node-server");
           const mod = (await server.ssrLoadModule("/server/app.ts")) as { app: { fetch: (r: Request) => Response | Promise<Response> } };
@@ -45,7 +46,7 @@ export default defineConfig(({ mode }) => {
     build: {
       target: "es2022",
       sourcemap: false,
-      chunkSizeWarningLimit: 900,
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
           manualChunks(id) {

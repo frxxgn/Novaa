@@ -7,7 +7,7 @@ import { ApiError, badRequest, forbidden, notFound, readJson } from "../lib/http
 import { admin, clearSettingsCache, requirePermission, type AuthInfo } from "../lib/supabase.js";
 import { notifyTeam } from "../notify/index.js";
 import { calculate, invalidatePricingCache } from "../quotes/service.js";
-import { quoteRequirementsSchema } from "../../src/shared/pricing.js";
+import { quoteRequirementsSchema } from "../../src/shared/pricing-schema.js";
 import { PricingConfigError } from "../pricing/engine.js";
 
 export const adminRoutes = new Hono();

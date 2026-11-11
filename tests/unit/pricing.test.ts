@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { quoteRequirementsSchema } from "../../src/shared/pricing.js";
+import { quoteRequirementsSchema } from "../../src/shared/pricing-schema.js";
 import { estimateQuote, PricingConfigError, type PricingRule } from "../../server/pricing/engine.js";
 
 const rule = (r: Partial<PricingRule> & Pick<PricingRule, "key" | "category" | "unit">): PricingRule => ({

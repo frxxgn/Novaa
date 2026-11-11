@@ -1,6 +1,5 @@
-// Tipos y validación compartidos entre cliente y servidor para el motor de
-// presupuestos. El CÁLCULO solo se realiza en el servidor.
-import { z } from "zod";
+// Tipos y etiquetas compartidos entre cliente y servidor para el motor de
+// presupuestos (sin dependencias). El CÁLCULO solo se realiza en el servidor.
 
 export const PROJECT_TYPES = [
   "landing",
@@ -80,28 +79,20 @@ export const COMPLEXITY_LEVELS = ["low", "medium", "high"] as const;
 export const TIMELINES = ["flexible", "standard", "rush"] as const;
 export const MAINTENANCE_PLANS = ["none", "basic", "pro", "ai"] as const;
 
-export const quoteRequirementsSchema = z.object({
-  project_type: z.enum(PROJECT_TYPES),
-  title: z.string().trim().max(140).optional(),
-  business: z.string().trim().max(200).optional(),
-  pages: z.number().int().min(0).max(200).optional(),
-  design: z.enum(DESIGN_LEVELS).default("custom"),
-  features: z.array(z.enum(FEATURE_KEYS)).max(FEATURE_KEYS.length).default([]),
-  quantities: z
-    .object({
-      multilingual: z.number().int().min(0).max(20).optional(),
-      integration: z.number().int().min(0).max(30).optional(),
-      automation: z.number().int().min(0).max(50).optional(),
-      copywriting: z.number().int().min(0).max(200).optional(),
-    })
-    .default({}),
-  complexity: z.enum(COMPLEXITY_LEVELS).default("medium"),
-  timeline: z.enum(TIMELINES).default("standard"),
-  maintenance: z.enum(MAINTENANCE_PLANS).default("none"),
-  notes: z.string().trim().max(1200).optional(),
-});
-export type QuoteRequirements = z.infer<typeof quoteRequirementsSchema>;
-export type QuoteRequirementsInput = z.input<typeof quoteRequirementsSchema>;
+/** Requisitos de un presupuesto (validados en servidor con pricing-schema.ts). */
+export interface QuoteRequirements {
+  project_type: ProjectType;
+  title?: string;
+  business?: string;
+  pages?: number;
+  design: (typeof DESIGN_LEVELS)[number];
+  features: FeatureKey[];
+  quantities: { multilingual?: number; integration?: number; automation?: number; copywriting?: number };
+  complexity: (typeof COMPLEXITY_LEVELS)[number];
+  timeline: (typeof TIMELINES)[number];
+  maintenance: (typeof MAINTENANCE_PLANS)[number];
+  notes?: string;
+}
 
 export interface QuoteLine {
   kind: "base" | "page" | "feature" | "design" | "complexity" | "timeline" | "maintenance" | "margin" | "discount" | "optional";

@@ -1,7 +1,7 @@
 // Rutas públicas: formulario de contacto, presupuestos, analíticas y sitemap.
 import { Hono } from "hono";
 import { z } from "zod";
-import { quoteRequirementsSchema } from "../../src/shared/pricing.js";
+import { quoteRequirementsSchema } from "../../src/shared/pricing-schema.js";
 import { env, integrations } from "../env.js";
 import { ApiError, forbidden, ipHash, notFound, readJson, tooMany } from "../lib/http.js";
 import { admin, getAuth, getSetting, rateLimit, requireAuth } from "../lib/supabase.js";
@@ -168,9 +168,25 @@ pub.post("/analytics", async (c) => {
 // ---------------------------------------------------------------------------
 // Sitemap dinámico (páginas publicadas, servicios, proyectos y plantillas)
 // ---------------------------------------------------------------------------
+/** Dominio público: ajuste SEO del panel → SITE_URL → origen de la petición. */
+async function publicBase(requestUrl: string): Promise<string> {
+  const seo = await getSetting("seo_defaults", { site_url: "" });
+  const configured = String(seo.site_url || (env.siteUrlConfigured ? env.siteUrl : ""));
+  return (configured || new URL(requestUrl).origin).replace(/\/$/, "");
+}
+
+pub.get("/robots", async (c) => {
+  const base = await publicBase(c.req.url);
+  const status = await getSetting("site_status", { indexable: true } as { indexable?: boolean });
+  const rules =
+    status.indexable === false
+      ? ["User-agent: *", "Disallow: /"]
+      : ["User-agent: *", "Allow: /", "Disallow: /admin", "Disallow: /cuenta", "Disallow: /api/", "Disallow: /__preview", "Disallow: /demo/", "Disallow: /auth/"];
+  return c.body(`${rules.join("\n")}\n\nSitemap: ${base}/sitemap.xml\n`, 200, { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" });
+});
+
 pub.get("/sitemap", async (c) => {
-  const seo = await getSetting("seo_defaults", { site_url: env.siteUrl });
-  const base = String(seo.site_url || env.siteUrl).replace(/\/$/, "");
+  const base = await publicBase(c.req.url);
   const db = admin();
   const [{ data: pages }, { data: services }, { data: projects }, { data: templates }] = await Promise.all([
     db.from("pages").select("path, updated_at, seo, published_version_id").not("published_version_id", "is", null),

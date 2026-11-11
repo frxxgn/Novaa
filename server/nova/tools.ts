@@ -10,9 +10,9 @@ import {
   MAINTENANCE_PLANS,
   PROJECT_TYPES,
   TIMELINES,
-  quoteRequirementsSchema,
   type QuoteSummary,
 } from "../../src/shared/pricing.js";
+import { quoteRequirementsSchema } from "../../src/shared/pricing-schema.js";
 import { admin } from "../lib/supabase.js";
 import { createQuote } from "../quotes/service.js";
 import { notifyTeam } from "../notify/index.js";
